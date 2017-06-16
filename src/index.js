@@ -2,6 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+class NewGameButton extends React.Component {
+	render() {
+		if (this.props.winner) {
+		  return (
+			<button style={{marginLeft: 30}} onClick={() => this.props.onClick()}>
+				New Game
+			</button>
+		  );
+		}
+		return null;
+	}
+}
+
 class Square extends React.Component {
   render() {
     return (
@@ -18,7 +31,7 @@ class Board extends React.Component {
     this.state = {
       squares: Array(9).fill(null),
 	  xIsNext: true
-    };
+    }; 
   }
   
   handleClick(i) {
@@ -32,11 +45,27 @@ class Board extends React.Component {
 		xIsNext: !this.state.xIsNext
 	});
   }
+  
+  handleNewGameClick(){
+	const squares = Array(9).fill(null);
+	this.setState({
+		squares: squares,
+		xIsNext: true
+	});
+  }
 	
   renderSquare(i) {
     return <Square 
 				value={this.state.squares[i]} 
 				onClick={() => this.handleClick(i)}
+			/>;
+  }
+  
+  renderNewGame(){
+	const winner = calculateWinner(this.state.squares);
+	return <NewGameButton 
+				winner={winner}
+				onClick={() => this.handleNewGameClick()}
 			/>;
   }
 
@@ -51,7 +80,11 @@ class Board extends React.Component {
 
     return (
       <div>
-        <div className="status">{status}</div>
+        <div className="status">
+			{status}
+			{this.renderNewGame()}
+		</div>
+		
         <div className="board-row">
           {this.renderSquare(0)}
           {this.renderSquare(1)}
