@@ -2,6 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+class Move extends React.Component {
+	render(){
+		var bold = "";
+		if(this.props.current === this.props.id){
+			bold = "bold"
+		}
+		
+		return (
+			<li key={this.props.id}>
+				<a href="#" className={bold} onClick={() => this.props.onClick(this.props.id)}>
+					{this.props.description}
+				</a>
+			</li>
+		)
+	}
+}
+
 class NewGameButton extends React.Component {
 	render() {
 		if (this.props.winner) {
@@ -119,9 +136,12 @@ class Game extends React.Component {
         'Move #' + move :
         'Game start';
       return (
-        <li key={move}>
-          <a href="#" onClick={() => this.jumpTo(move)}>{desc}</a>
-        </li>
+		<Move
+			id={move}
+			description={desc}
+			current={this.state.stepNumber}
+			onClick={() => this.jumpTo(move)}
+		/>
       );
     });
 	
