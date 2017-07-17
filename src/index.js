@@ -10,7 +10,7 @@ class Move extends React.Component {
 		}
 		
 		return (
-			<li key={this.props.id}>
+			<li>
 				<a href="#" className={bold} onClick={() => this.props.onClick(this.props.id)}>
 					{this.props.description}
 				</a>
@@ -44,31 +44,25 @@ class Square extends React.Component {
 
 class Board extends React.Component {
   renderSquare(x,y) {
-    return <Square 
+    return <Square
+				key={x + "-" + y}
 				value={this.props.squares[x][y]} 
 				onClick={() => this.props.onClick(x,y)}
 			/>;
   }
 
   render() {
+	var squareRows = [];
+	for(var y = 0; y < 3; y++){
+		var row = [];
+		for(var x = 0; x < 3; x++){
+			row.push(this.renderSquare(x,y));
+		}
+		squareRows.push(<div className="board-row" key={"row-" + y}>{row}</div>);
+	}
+	
     return (
-      <div>		
-        <div className="board-row">
-          {this.renderSquare(0,0)}
-          {this.renderSquare(0,1)}
-          {this.renderSquare(0,2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(1,0)}
-          {this.renderSquare(1,1)}
-          {this.renderSquare(1,2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(2,0)}
-          {this.renderSquare(2,1)}
-          {this.renderSquare(2,2)}
-        </div>
-      </div>
+		<div>{squareRows}</div>
     );
   }
 }
@@ -137,6 +131,7 @@ class Game extends React.Component {
         'Game start';
       return (
 		<Move
+			key={move}
 			id={move}
 			description={desc}
 			current={this.state.stepNumber}
