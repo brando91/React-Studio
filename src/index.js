@@ -53,9 +53,9 @@ class Board extends React.Component {
 
   render() {
 	var squareRows = [];
-	for(var y = 0; y < 3; y++){
+	for(var y = 0; y < this.props.rows; y++){
 		var row = [];
-		for(var x = 0; x < 3; x++){
+		for(var x = 0; x < this.props.columns; x++){
 			row.push(this.renderSquare(x,y));
 		}
 		squareRows.push(<div className="board-row" key={"row-" + y}>{row}</div>);
@@ -70,9 +70,11 @@ class Board extends React.Component {
 class Game extends React.Component {
   constructor() {
     super();
+	this.rows = 3;
+	this.columns = 3;
     this.state = {
       history: [{
-        squares: [Array(3).fill(null), Array(3).fill(null), Array(3).fill(null)]
+        squares: [Array(this.columns).fill(null), Array(this.columns).fill(null), Array(this.columns).fill(null)]
       }],
       xIsNext: true,
 	  stepNumber: 0
@@ -82,7 +84,7 @@ class Game extends React.Component {
   handleNewGameClick(){
 	this.setState({
 		history: [{
-			squares: [Array(3).fill(null), Array(3).fill(null), Array(3).fill(null)]
+			squares: [Array(this.columns).fill(null), Array(this.columns).fill(null), Array(this.columns).fill(null)]
 		  }],
 		xIsNext: true,
 		stepNumber: 0
@@ -150,7 +152,9 @@ class Game extends React.Component {
     return (
       <div className="game">
         <div className="game-board">
-			<Board 
+			<Board
+				rows={this.rows}
+				columns={this.columns}
 				squares={current.squares}
 				onClick={(x,y) => this.handleClick(x,y)}
 			/>
