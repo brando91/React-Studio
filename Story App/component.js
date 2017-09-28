@@ -6,8 +6,10 @@ class CommentBox extends React.Component {
 				<div className="comment-box">
 					<h4 className="comment-count text-secondary">2 comments</h4>
 					<div className="comment-list">
-						<Comment />
-						<Comment />
+						<Comment
+							author="Brando Preda" body="Primo commento" />
+						<Comment
+							author="Manuel Sproviero" body="Secondo commento" />
 					</div>
 				</div>
 			</div>
@@ -21,10 +23,8 @@ class Comment extends React.Component {
 			<div className="row mt-3 mb-3">
 				<div className="col card">
 				  <div className="card-body">
-				    <h4 className="card-title">Anne Droid</h4>
-				    <p className="card-text">
-							I wanna know what love is...
-						</p>
+				    <h4 className="card-title">{this.props.author}</h4>
+				    <p className="card-text">{this.props.body}</p>
 				    <a href="#" className="card-link">Delete comment</a>
 				  </div>
 				</div>
