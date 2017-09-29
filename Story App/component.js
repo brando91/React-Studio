@@ -22,16 +22,44 @@ class CommentBox extends React.Component {
 		return `${commentCount} comments`;
 	}
 
+	_handleClick(){
+		this.setState({
+			showComments: !this.state.showComments
+		});
+	}
+
+	constructor(){
+		super();
+
+		this.state = {
+			showComments: false
+		};
+	}
+
 	render(){
 		const comments = this._getComments();
+		let displayedComments;
+		let buttonText = 'Show Comments';
+		if(this.state.showComments){
+			displayedComments = comments;
+			buttonText = 'Hide Comments';
+		}
 
 		return(
 			<div className="container">
-				<h1>Comment Box App</h1>
+				<div className="row mt-4">
+					<div className="col-8">
+						<h1>Comment Box App</h1>
+					</div>
+					<div className="col-4">
+						<button onClick={this._handleClick.bind(this)} className="btn btn-info float-right h-100" type="button">{buttonText}</button>
+					</div>
+				</div>
+
 				<div className="comment-box">
 					<h4 className="comment-count text-secondary">{this._getCommentsTitle(comments.length)}</h4>
 					<div className="comment-list">
-						{comments}
+						{displayedComments}
 					</div>
 				</div>
 			</div>
