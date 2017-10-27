@@ -1,4 +1,13 @@
 class CommentBox extends React.Component {
+	_addComment(author, body){
+		const comment = {
+			id: this.state.comments.length + 1,
+			author: author,
+			body: body
+		};
+		this.setState({comments: this.state.comments.concat([comment])});
+	}
+
 	_getComments(){
 		const comments = [
 			{id: 1, author: 'Brando Preda', body: 'Primo commento'},
@@ -56,7 +65,7 @@ class CommentBox extends React.Component {
 					</div>
 				</div>
 
-				<CommentForm />
+				<CommentForm addComment={this._addComment.bind(this)}/>
 
 				<div className="comment-box">
 					<h4 className="comment-count text-secondary">{this._getCommentsTitle(comments.length)}</h4>
@@ -70,20 +79,29 @@ class CommentBox extends React.Component {
 }
 
 class CommentForm extends React.Component {
+	_handleSubmit(event){
+		event.preventDefault();
+
+		let author = this._author;
+		let body = this._body;
+
+		this.props.addComment(author.value, body.value);
+	}
+
 	render(){
 		return(
 			<div className="row mt-3 mb-3">
 				<div className="col card">
 				  <div className="card-body">
 				    <h4 className="card-title">Add new comment</h4>
-						<form>
+						<form onSubmit={this._handleSubmit.bind(this)}>
 						  <div className="form-group">
 						    <label>Name</label>
-						    <input className="form-control" placeholder="Name"></input>
+						    <input className="form-control" placeholder="Name" ref={(input) => this._author = input}/>
 							</div>
 							<div className="form-group">
 								<label>Your comment</label>
-								<textarea className="form-control" placeholder="Comment"></textarea>
+								<textarea className="form-control" placeholder="Comment" ref={(textarea) => this._body = textarea}></textarea>
 						  </div>
 						  <button type="submit" className="btn btn-info">Post</button>
 						</form>
