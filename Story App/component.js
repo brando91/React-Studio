@@ -56,11 +56,38 @@ class CommentBox extends React.Component {
 					</div>
 				</div>
 
+				<CommentForm />
+
 				<div className="comment-box">
 					<h4 className="comment-count text-secondary">{this._getCommentsTitle(comments.length)}</h4>
 					<div className="comment-list">
 						{displayedComments}
 					</div>
+				</div>
+			</div>
+		);
+	}
+}
+
+class CommentForm extends React.Component {
+	render(){
+		return(
+			<div className="row mt-3 mb-3">
+				<div className="col card">
+				  <div className="card-body">
+				    <h4 className="card-title">Add new comment</h4>
+						<form>
+						  <div className="form-group">
+						    <label>Name</label>
+						    <input className="form-control" placeholder="Name"></input>
+							</div>
+							<div className="form-group">
+								<label>Your comment</label>
+								<textarea className="form-control" placeholder="Comment"></textarea>
+						  </div>
+						  <button type="submit" className="btn btn-info">Post</button>
+						</form>
+				  </div>
 				</div>
 			</div>
 		);
