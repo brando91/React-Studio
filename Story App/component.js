@@ -78,6 +78,14 @@ class CommentBox extends React.Component {
 }
 
 class CommentForm extends React.Component {
+	constructor(){
+		super();
+
+		this.state = {
+			charactersLeft: 500
+		};
+	}
+
 	_handleSubmit(event){
 		event.preventDefault();
 
@@ -86,6 +94,10 @@ class CommentForm extends React.Component {
 
 		this.props.addComment(author.value, body.value);
 	}
+
+	_getCharacterCount(){
+    this.setState({ charactersLeft: 500 - this._body.value.length });
+  }
 
 	render(){
 		return(
@@ -100,8 +112,14 @@ class CommentForm extends React.Component {
 							</div>
 							<div className="form-group">
 								<label>Your comment</label>
-								<textarea className="form-control" placeholder="Comment" ref={(textarea) => this._body = textarea}></textarea>
+								<textarea className="form-control" placeholder="Comment"
+													ref={(textarea) => this._body = textarea}
+													onKeyUp={this._getCharacterCount.bind(this)}></textarea>
 						  </div>
+							<p>
+								{this.state.charactersLeft} characters left
+							</p>
+							
 						  <button type="submit" className="btn btn-info">Post</button>
 						</form>
 				  </div>
