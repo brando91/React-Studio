@@ -9,14 +9,7 @@ class CommentBox extends React.Component {
 	}
 
 	_getComments(){
-		const comments = [
-			{id: 1, author: 'Brando Preda', body: 'Primo commento'},
-			{id: 2, author: 'Manuel Sproviero', body: 'Secondo commento'},
-			{id: 3, author: 'Giancarlo Giuffra', body: 'Terzo commento'},
-			{id: 4, author: 'Daniele Polli', body: 'Quarto commento'}
-		];
-
-		return comments.map((comment) => {
+		return this.state.comments.map((comment) => {
 			return (<Comment author={comment.author} body={comment.body} key={comment.id}/>);
 		});
 	}
@@ -41,7 +34,13 @@ class CommentBox extends React.Component {
 		super();
 
 		this.state = {
-			showComments: false
+			showComments: false,
+			comments: [
+				{id: 1, author: 'Brando Preda', body: 'Primo commento'},
+				{id: 2, author: 'Manuel Sproviero', body: 'Secondo commento'},
+				{id: 3, author: 'Giancarlo Giuffra', body: 'Terzo commento'},
+				{id: 4, author: 'Daniele Polli', body: 'Quarto commento'}
+			]
 		};
 	}
 
