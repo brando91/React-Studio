@@ -92,6 +92,11 @@ class CommentForm extends React.Component {
 		let author = this._author;
 		let body = this._body;
 
+		if (!author.value || !body.value) {
+      $('#warning-modal').modal();
+      return;
+    }
+
 		this.props.addComment(author.value, body.value);
 	}
 
@@ -101,29 +106,55 @@ class CommentForm extends React.Component {
 
 	render(){
 		return(
-			<div className="row mt-3 mb-3">
-				<div className="col card">
-				  <div className="card-body">
-				    <h4 className="card-title">Add new comment</h4>
-						<form onSubmit={this._handleSubmit.bind(this)}>
-						  <div className="form-group">
-						    <label>Name</label>
-						    <input className="form-control" placeholder="Name" ref={(input) => this._author = input}/>
-							</div>
-							<div className="form-group">
-								<label>Your comment</label>
-								<textarea className="form-control" placeholder="Comment"
-													ref={(textarea) => this._body = textarea}
-													onKeyUp={this._getCharacterCount.bind(this)}></textarea>
-						  </div>
-							<p>
-								{this.state.charactersLeft} characters left
-							</p>
-							
-						  <button type="submit" className="btn btn-info">Post</button>
-						</form>
-				  </div>
+			<div>
+				<div className="row mt-3 mb-3">
+					<div className="col card">
+					  <div className="card-body">
+					    <h4 className="card-title">Add new comment</h4>
+							<form onSubmit={this._handleSubmit.bind(this)}>
+							  <div className="form-group">
+							    <label>Name</label>
+							    <input className="form-control" placeholder="Name" ref={(input) => this._author = input}/>
+								</div>
+								<div className="form-group">
+									<label>Your comment</label>
+									<textarea className="form-control" placeholder="Comment"
+														ref={(textarea) => this._body = textarea}
+														onKeyUp={this._getCharacterCount.bind(this)}></textarea>
+							  </div>
+								<p>
+									{this.state.charactersLeft} characters left
+								</p>
+
+							  <button type="submit" className="btn btn-info">Post</button>
+							</form>
+					  </div>
+					</div>
 				</div>
+
+				<WarningModal title="Warning" message="Please enter your name and comment" />
+			</div>
+		);
+	}
+}
+
+class WarningModal extends React.Component {
+	render(){
+		return(
+			<div className="modal fade" id="warning-modal" tabindex="-1">
+			  <div className="modal-dialog modal-sm">
+			    <div className="modal-content">
+						<div className="modal-header">
+			        <h4 className="modal-title">{this.props.title}</h4>
+			        <button type="button" className="close" data-dismiss="modal">
+			          <span aria-hidden="true">×</span>
+			        </button>
+			      </div>
+						<div className="modal-body">
+			        {this.props.message}
+			      </div>
+			    </div>
+			  </div>
 			</div>
 		);
 	}
