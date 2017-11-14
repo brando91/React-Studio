@@ -30,6 +30,29 @@ class CommentBox extends React.Component {
 		});
 	}
 
+	componentWillMount(){
+			//Executed before the component is rendered the first time
+			this._fetchComments();
+	}
+
+	componentDidMount(){
+		//Executed after the component is rendered
+		this._timer = setInterval(() => this._fetchComments(), 5000);
+	}
+
+	componentWillUnmount(){
+			//Executed after the component is removed from DOM
+			clearInterval(this._timer);
+	}
+
+	_fetchComments(){
+		$.ajax({
+			method: 'GET',
+			url: '/api/comments',
+			success: (comments) => {this.setState({comments})}
+		});
+	}
+
 	constructor(){
 		super();
 
