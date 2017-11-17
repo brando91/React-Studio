@@ -1,11 +1,23 @@
 class CommentBox extends React.Component {
 	_addComment(author, body){
+
+		//id should be generated server side
 		const comment = {
 			id: this.state.comments.length + 1,
 			author: author,
 			body: body
 		};
 		this.setState({comments: this.state.comments.concat([comment])});
+
+		$.ajax({
+			method: 'POST',
+			url: '/api/comments',
+			data: comment,
+			success: (newComment) => {
+				this.setState({comments: this.state.comments.concat([newComment])});
+			}
+		});
+
 	}
 
 	_getComments(){
