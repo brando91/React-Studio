@@ -200,7 +200,9 @@ class WarningModal extends React.Component {
 class Comment extends React.Component {
 	_handleDelete(event){
 		event.preventDefault();
-		this.props.onDelete(this.props.comment);
+		if(confirm('Are you sure?')){
+				this.props.onDelete(this.props.comment);
+		}
 	}
 
 	render(){
