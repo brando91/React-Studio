@@ -10,7 +10,9 @@ class CommentBox extends React.Component {
 
 	_getComments(){
 		return this.state.comments.map((comment) => {
-			return (<Comment author={comment.author} body={comment.body} key={comment.id}/>);
+			return (<Comment comment={comment}
+											 key={comment.id}
+											 onDelete={this._deleteComment.bind(this)} />);
 		});
 	}
 
@@ -51,6 +53,18 @@ class CommentBox extends React.Component {
 			url: '/api/comments',
 			success: (comments) => {this.setState({comments})}
 		});
+	}
+
+	_deleteComment(comment){
+		$.ajax({
+			method: 'DELETE',
+			url: '/api/comments/' + comment.id
+		});
+
+		const comments = [...this.state.comments];
+		const commentIndex = comments.indexOf(comment);
+		comments.splice(commentIndex, 1);
+		this.setState({comments});
 	}
 
 	constructor(){
@@ -184,14 +198,19 @@ class WarningModal extends React.Component {
 }
 
 class Comment extends React.Component {
+	_handleDelete(event){
+		event.preventDefault();
+		this.props.onDelete(this.props.comment);
+	}
+
 	render(){
 		return(
 			<div className="row mt-3 mb-3">
 				<div className="col card">
 				  <div className="card-body">
-				    <h4 className="card-title">{this.props.author}</h4>
-				    <p className="card-text">{this.props.body}</p>
-				    <a href="#" className="card-link">Delete comment</a>
+				    <h4 className="card-title">{this.props.comment.author}</h4>
+				    <p className="card-text">{this.props.comment.body}</p>
+				    <a href="#" onClick={this._handleDelete.bind(this)} className="card-link">Delete comment</a>
 				  </div>
 				</div>
 			</div>
